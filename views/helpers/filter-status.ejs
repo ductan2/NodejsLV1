@@ -1,0 +1,6 @@
+<% statusFilterHelper=(statusFilter)=>{ %> 
+<% statusFilter.forEach((st,index)=>{%>
+<a class="btn m-b-sm btn-<%=st.class%> btn-sm" href="admin123/item/all">
+    <%= st.name %> (<%= st.count %>)
+</a>
+<%}) %> <% } %>
