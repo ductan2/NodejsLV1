@@ -21,10 +21,10 @@
                  
                     <div class="status-list col-sm-6 pl0">
                         <% include ./../../helpers/filter-status %>
-                        <%= statusFilterHelper(statusFilter)%>
+                        <%- statusFilterHelper(statusFilter)%>
                     </div>
                     <div class="col-sm-6">
-                        <form action="admin123/item/all" method="GET">
+                        <form action="/<%= prefixAdmin %>/item/<%= currenStatus %>" method="GET">
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -45,7 +45,7 @@
                                         class="btn btn-success"
                                         type="button"
                                     >
-                                        <a href="admin123/group/all">Clear</a>
+                                        <a href="/<%= prefixAdmin %>/item">Clear</a>
                                     </button>
                                 </span>
                             </div>
@@ -135,12 +135,12 @@
                                     <td><%= item.name %></td>
                                     <td>
                                        
-                                        <%= statusHelper(item.status,'#') %>
+                                        <%- statusHelper(item.status,'#') %>
                                     </td>
                                     <td>
                                         <input
                                             type="number"
-                                            value="2"
+                                            value="<%= item.odering%>"
                                             class="text-center ordering"
                                         />
                                     </td>

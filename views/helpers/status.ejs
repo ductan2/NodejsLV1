@@ -1,18 +1,14 @@
-<% statusHelper=(status,link)=>{ %>
-   <a href="<%=link%>">
-      <% if(status==='ACTIVE') { %>
-      <span class="label label-success">active</span>
-      <% }else{%>
-      <span class="label label-warning">inactive</span>
-      <% } %>
-   </a>
-<% } %>
 
-<!-- <a href="admin123/item/change-status/5a9e5a96da67bc078421d7d6/active">
-    <% if(item.status===true) { %>
-    <span class="label label-success">active</span>
-    <% }else{%>
+<% statusHelper=(status,link)=>{ 
+      let xhtml='';
+      if(status==='ACTIVE') { 
+         xhtml=`<span class="label label-success">active</span>`
+      }else{
+         xhtml=`<span class="label label-warning">inactive</span>`
+       } 
+       return `<a href="${link}">${xhtml}</a>`
+} %>
 
-    <span class="label label-warning">inactive</span>
-    <% } %>
-</a> -->
+
+
+

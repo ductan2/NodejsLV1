@@ -1,6 +1,15 @@
-<% statusFilterHelper=(statusFilter)=>{ %> 
-<% statusFilter.forEach((st,index)=>{%>
-<a class="btn m-b-sm btn-<%=st.class%> btn-sm" href="admin123/item/all">
-    <%= st.name %> (<%= st.count %>)
-</a>
-<%}) %> <% } %>
+
+<% statusFilterHelper=(statusFilter)=>{ 
+    let xhtmlResult='';
+    let link=`/${prefixAdmin}/item`
+    statusFilter.forEach((st,index)=>{
+        xhtmlResult+=`
+        <a class="btn m-b-sm btn-${st.class} btn-sm" href=${link}/${st.value}>
+            ${ st.name }(${st.count })
+        </a>
+        `
+    }) 
+    return xhtmlResult;
+} %>
+
+
