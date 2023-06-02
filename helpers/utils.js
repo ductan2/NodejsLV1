@@ -29,7 +29,6 @@ const createFilterStatus=(currenStatus)=>{
           .countDocuments(condition)
           .then((data) => {
               statusFilter[index].count = data;
-             
           })
           .catch((err) => console.log(err));
   });

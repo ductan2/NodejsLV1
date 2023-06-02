@@ -1,0 +1,74 @@
+<% paginationHelper=(type)=>{
+   let {currentPage,totalItemPerPage,totalItem,pageRange}=pagination;
+   let totalPage=Math.ceil(totalItem/totalItemPerPage);
+   let endPerPage= currentPage*totalItemPerPage ;
+   let startPerPage= endPerPage - totalItemPerPage +1;
+   if(endPerPage>totalItem) endPerPage=totalItem
+   if (startPerPage>totalItem) startPerPage=totalItem
+   let link=`/${prefixAdmin}/${type}/${currenStatus}`   ;
+   let xhtml='',startPage='',prevPage='',numberOfPage='',nextPage='',endPage='';
+   if(totalPage>1){
+      if(searchParams!=='') {
+         link="?search="+searchParams+"&page="
+      }
+      else link+=`?page=`
+      if(currentPage > 1){
+         startPage=`<li><a href="${link}">start</a></li>`
+         prevPage=`<li><a href="${link}${currentPage-1}">previous</a></li>`
+      }
+      if(currentPage <totalPage){
+         nextPage=`<li><a href="${link}${currentPage+1}">next</a></li>`
+         endPage=`<li><a href="${link}${totalPage}">end</a></li>`
+      }
+      let middle=Math.ceil(pageRange/2);
+      let min =  currentPage-middle +1;
+      let max=min+pageRange -1;
+      if(min <=1){
+         min=1;
+         max=pageRange;
+      }
+      if(max>=totalPage){
+         max=totalPage;
+         min=max-pageRange+1;
+      }
+
+      for (let i=min ;i<=max;i++) {
+         if(i==0){
+            continue;
+         }
+         if(i===currentPage){
+            numberOfPage+=`<li class="active"><a>${i}</a>   </li>`
+            }
+            else numberOfPage+=`<li><a href="${link}${i}">${i}</a></li>`
+      }
+      xhtml=`<ul class="pagination text-center">`+startPage+prevPage+numberOfPage+nextPage+endPage+`</ul>`
+   }
+   return `
+      <div class="panel panel-info" id="pagination">
+      <div class="panel-heading">
+         Pagination
+         <span>^</span>
+         <span class="label label-warning">Total pages: ${totalPage}</span>
+         <span class="label label-danger">Total entries: ${totalItem}</span>
+      </div>
+
+      <div class="panel-body">
+         <div class="infor-pagination">
+            <p>
+                  Number of elements on the page:
+                  <span>${totalPage}</span>
+            </p>
+
+            <p>
+                  Showing <span> ${startPerPage} </span> to <span>${endPerPage}</span> of
+                  <span>${totalItem}</span> entries
+            </p>
+         </div>
+         <div class="ad-pagination">
+           ${xhtml}
+         </div>
+      </div>
+   </div>
+   `
+} %>
+
