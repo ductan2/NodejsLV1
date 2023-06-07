@@ -5,7 +5,7 @@
    let startPerPage= endPerPage - totalItemPerPage +1;
    if(endPerPage>totalItem) endPerPage=totalItem
    if (startPerPage>totalItem) startPerPage=totalItem
-   let link=`/${prefixAdmin}/${type}/${currenStatus}`   ;
+   let link=`/${prefixAdmin}/${type}/${currenStatus}` ;
    let xhtml='',startPage='',prevPage='',numberOfPage='',nextPage='',endPage='';
    if(totalPage>1){
       if(searchParams!=='') {

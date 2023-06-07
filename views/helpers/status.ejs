@@ -1,6 +1,7 @@
 
-<% statusHelper=(status,link)=>{ 
+<% statusHelper=(status,id,type)=>{ 
       let xhtml='';
+      let link = "/" + prefixAdmin + "/"+type+"/change-status/"+status.toLowerCase()+"/"+id;
       if(status==='ACTIVE') { 
          xhtml=`<span class="label label-success">active</span>`
       }else{
@@ -8,7 +9,6 @@
        } 
        return `<a href="${link}">${xhtml}</a>`
 } %>
-
 
 
 
