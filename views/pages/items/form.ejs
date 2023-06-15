@@ -20,7 +20,7 @@
                 <div class="col-lg-6">
                     <form
                         role="form"
-                        action="admin123/item/save/"
+                        action="/<%= prefixAdmin %>/item/save/"
                         method="POST"
                     >
                         <div class="form-group">
@@ -28,7 +28,7 @@
                             <input
                                 class="form-control"
                                 name="name"
-                                value=""
+                                value="<%= item.name %>"
                             />
                         </div>
 
@@ -38,7 +38,7 @@
                                 class="form-control"
                                 type="number"
                                 name="ordering"
-                                value="0"
+                                value="<%=item.odering %>"
                             />
                         </div>
 
@@ -48,13 +48,13 @@
                                 name="status"
                                 class="form-control"
                             >
-                                <option value="novalue">
+                                <option value="novalue" <%= (item.status.toLowerCase()=="novalue") ? "selected":"" %>>
                                     Choose Status
                                 </option>
-                                <option value="active">
+                                <option value="active" <%= (item.status.toLowerCase()=="active") ? "selected":"" %>>
                                     Active
                                 </option>
-                                <option value="inactive">
+                                <option value="inactive" <%= (item.status.toLowerCase()=="inactive") ? "selected":"" %>>
                                     Inactive
                                 </option>
                             </select>

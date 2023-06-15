@@ -2,7 +2,7 @@
 <% statusHelper=(status,id,type)=>{ 
       let xhtml='';
       let link = "/" + prefixAdmin + "/"+type+"/change-status/"+status.toLowerCase()+"/"+id;
-      if(status==='ACTIVE') { 
+      if(status.toLowerCase()==='active') { 
          xhtml=`<span class="label label-success">active</span>`
       }else{
          xhtml=`<span class="label label-warning">inactive</span>`

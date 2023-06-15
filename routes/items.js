@@ -3,8 +3,25 @@ const router = express.Router();
 const itemModal = require("../schemas/items");
 const createFilterStatus = require("../helpers/utils");
 const { getParams } = require("../helpers/params");
-const backLink="/admin/item"
+const { init } = require("../app");
+const backLink = "/admin/item";
 
+const titleDefault = "Item Management ";
+const titleIndex = titleDefault + "- list";
+const titleAdd = titleDefault + "- add";
+const titleEdit = titleDefault + "- edit";
+
+router.get("/form(/:id)?", async (req, res, next) => {
+  const id = await getParams(req.params, "id", "");
+  const item = { name: "", odering: 0,status:"novalue"};
+  if (id) {
+    await itemModal.findById({ _id: id }).then((item) => {
+      res.render("pages/items/form", { title: titleEdit, item });
+    });
+  } else {
+    res.render("pages/items/form", { title: titleAdd, item });
+  }
+});
 
 router.get("(/:status)?", async (req, res, next) => {
   let objwhere = {};
@@ -43,7 +60,7 @@ router.get("(/:status)?", async (req, res, next) => {
         currenStatus,
         pagination,
         searchParams,
-        title: "Page - list",
+        title: titleIndex,
       });
     })
     .catch((err) => {
@@ -63,7 +80,22 @@ router.get("/change-status/:status/:id", (req, res, next) => {
       res.redirect(backLink);
     });
 });
+router.post('/save',async(req,res,next)=>{
+  req.body=JSON.parse(JSON.stringify(req.body));
+  let item={
+    name:await getParams(req.body,'name',''),
+    odering: parseInt(await getParams(req.body,'ordering','')),
+    status:await getParams(req.body,'status','').toUpperCase()
+  }
+   console.log("🚀 ~ file: items.js:91 ~ router.post ~ item:", item)
+   
+  await new itemModal(item).save().then((suc)=>{
+    console.log(suc)
+    req.flash("success","Add successfully!");
+    res.redirect(backLink);
+  })
 
+})
 //delete item
 router.get("/delete/:id", (req, res, next) => {
   let id = getParams(req.params, "id", "");
@@ -75,20 +107,47 @@ router.get("/delete/:id", (req, res, next) => {
 router.post("/change-status/:status", (req, res, next) => {
   let currentStatus = getParams(req.params, "status", "");
   itemModal
-    .updateMany({ _id: { $in: req.body.cid } }, { status: currentStatus.toUpperCase() })
+    .updateMany(
+      { _id: { $in: req.body.cid } },
+      { status: currentStatus.toUpperCase() }
+    )
     .then(() => {
-        res.redirect(backLink);
+      res.redirect(backLink);
     })
     .catch((err) => console.log(err));
 });
-router.post("/delete",(req,res,next)=>{
-    itemModal.deleteMany({_id:{$in:req.body.cid}}).then(()=>{
-        res.redirect(backLink)
-    })
-})
-
-router.get("/add", (req, res, next) => {
-  res.render("pages/items/add", { title: "Page - add" });
+router.post("/delete", (req, res, next) => {
+  itemModal.deleteMany({ _id: { $in: req.body.cid } }).then(() => {
+    res.redirect(backLink);
+  });
+});
+router.post("/change-ordering", async (req, res, next) => {
+  let arrId = req.body.cid;
+  let orderings = req.body.ordering;
+  if (!Array.isArray(arrId)) {
+    itemModal
+      .updateOne(
+        { _id: req.body.cid },
+        { odering: parseInt(req.body.ordering) }
+      )
+      .then(() => {
+        res.redirect(backLink);
+      });
+  } else {
+    const updatePromises = arrId.map((id, index) => {
+      return itemModal.updateOne(
+        { _id: id },
+        { odering: parseInt(orderings[index]) }
+      );
+    });
+    Promise.all(updatePromises)
+      .then(() => {
+        res.redirect(backLink);
+      })
+      .catch((error) => {
+        // Xử lý lỗi nếu cần
+      });
+  }
 });
 
 module.exports = router;

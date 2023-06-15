@@ -69,41 +69,8 @@
                     action=""
                     method="post"
                 >
-                    <div class="zcontrols">
-                        <select name="action" class="form-control slbAction">
-                            <option value="">Bulk Action</option>
-                            <option value="/<%= prefixAdmin %>/item/change-status/active">
-                                Active
-                            </option>
-                            <option
-                                value="/<%= prefixAdmin %>/item/change-status/inactive"
-                            >
-                                InActive
-                            </option>
-                            <option value="/<%= prefixAdmin %>/item/save-ordering/">
-                                Change Ordering
-                            </option>
-                            <option value="/<%= prefixAdmin %>/item/delete/">
-                                Delete
-                            </option>
-                        </select>
-                        <button
-                            class="btn btn-info btnAction"
-                            type="button"
-                            id="btn-action"
-                            value="btnAction"
-                            disabled
-                        >
-                            Apply
-                        </button>
-                        <div class="pull-right">
-                            <a
-                                href="/admin/item/add"
-                                class="btn btn-warning btn-addNew"
-                                >Add New
-                            </a>
-                        </div>
-                    </div>
+                    <% include ./../../helpers/actionHelper %>
+                    <%- actionHelper('item') %> 
 
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -147,7 +114,7 @@
                                     </td>
                                     <td>
                                         <a
-                                            href="admin123/item/form/5a9e5a96da67bc078421d7d6"
+                                            href="/<%=prefixAdmin%>/item/form/<%=item.id%>"
                                             type="button"
                                             class="btn btn-warning btn-sm"
                                             >Edit</a

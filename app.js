@@ -3,8 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session=require('express-session')
 var expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
+var flash = require('connect-flash');
+ 
+
 
 var indexRouter = require('./routes/index');
 const system = require('./config/system');
@@ -12,6 +16,25 @@ const system = require('./config/system');
 // view engine setup
 
 var app = express();
+
+// connect flash
+app.use(session({
+  secret: "secret key",
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(flash());
+
+
+app.use((req,res,next)=>{
+    res.locals.sucess=req.flash('sucess');
+    res.locals.err=req.flash('error');
+    next();
+})
+//end connect flash
+
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -22,6 +45,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 
 app.locals.prefixAdmin = system.prefixAdmin;
 

@@ -1,0 +1,36 @@
+<% actionHelper=(type)=>{ 
+    const collections=[
+        { id:1,value:"",name:"Bulk action" },
+        { id:2,value:"change-status/active",name:"Active" },
+        { id:3,value:"change-status/inactive",name:"InActive" },
+        { id:4,value:"change-ordering/",name:"Change Ordering" },
+        { id:5,value:"delete/",name:"Delete" },
+    ];
+    let xhtmlResult='';
+    collections.map((item,index)=>{
+        const link="/"+prefixAdmin+"/"+type+"/"+item.value;
+        xhtmlResult+=` <option value=${link}>${item.name}</option>`
+    })
+     return `
+        <div class="zcontrols"> <select name="action" class="form-control slbAction">
+                          ${xhtmlResult}
+                        </select>
+                        <button
+                            class="btn btn-info btnAction"
+                            type="button"
+                            id="btn-action"
+                            value="btnAction"
+                            disabled
+                        >
+                            Apply
+                        </button>
+                        <div class="pull-right">
+                            <a
+                                href="/admin/item/form"
+                                class="btn btn-warning btn-addNew"
+                                >Add New
+                            </a>
+                        </div>
+                    </div>
+     `
+} %>
